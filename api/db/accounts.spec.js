@@ -13,9 +13,11 @@ afterEach(async () => {
 test('create', async () => {
   const result1 = await accounts.create();
   expect(result1.result.ok).toBe(OK);
+  expect(result1.ops[0].accountId).toEqual(expect.any(String));
   expect(await accounts.count()).toBe(1);
 
   const result2 = await accounts.create();
   expect(result2.result.ok).toBe(OK);
+  expect(result2.ops[0].accountId).toEqual(expect.any(String));
   expect(await accounts.count()).toBe(2);
 });
