@@ -1,8 +1,6 @@
 // This test requires mongod to be running in the background.
 const accounts = require('./accounts');
 
-const OK = 1; // 1 means 'OK' in the Node.js MongoDB Driver API.
-
 afterEach(async () => {
   const result = await accounts.drop();
   expect(result).toBe(true);
