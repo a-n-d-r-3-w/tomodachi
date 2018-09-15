@@ -12,9 +12,15 @@ const count = async id => {
   return friends.length;
 }
 
-const add = async (id, friend) => {
+const add = async (id, newFriend) => {
   const friends = await get(id);
-  friends.push(friend);
+  for (let i = 0; i < friends.length; i++) {
+    const oldFriend = friends[i];
+    if (newFriend === oldFriend) {
+      return;
+    }
+  }
+  friends.push(newFriend);
   return connectRunClose(accounts => accounts.updateOne({ id }, { $set: { friends }}));
 }
 
