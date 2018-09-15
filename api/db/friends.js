@@ -1,3 +1,4 @@
+const shortid = require('shortid');
 const accounts = require('./accounts');
 const connectRunClose = require('./connectRunClose');
 
@@ -12,15 +13,12 @@ const count = async id => {
   return friends.length;
 }
 
-const add = async (id, newFriend) => {
+const add = async (id, friend) => {
   const friends = await get(id);
-  for (let i = 0; i < friends.length; i++) {
-    const oldFriend = friends[i];
-    if (newFriend === oldFriend) {
-      return;
-    }
-  }
-  friends.push(newFriend);
+  friends.push({
+    id: shortid.generate(),
+    ...friend,
+  });
   return connectRunClose(accounts => accounts.updateOne({ id }, { $set: { friends }}));
 }
 
