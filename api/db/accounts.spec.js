@@ -19,3 +19,9 @@ test('create', async () => {
   expect(id2).toEqual(expect.any(String));
   expect(await accounts.count()).toBe(2);
 });
+
+test('get', async () => {
+  const id = await accounts.create();
+  const account = await accounts.get(id);
+  expect(account.id).toBe(id);
+});

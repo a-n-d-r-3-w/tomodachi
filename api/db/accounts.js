@@ -10,12 +10,15 @@ const create = async () => {
   throw new Error('Failed to create account.');
 };
 
-const count = async () => connectRunClose(collection => collection.countDocuments({}));
+const count = () => connectRunClose(collection => collection.countDocuments({}));
 
 const drop = () => connectRunClose(collection => collection.drop());
+
+const get = (id) => connectRunClose(collection => collection.findOne({ id }));
 
 module.exports = {
   count,
   create,
   drop,
+  get,
 };
