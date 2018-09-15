@@ -15,6 +15,6 @@ afterEach(async () => {
 });
 
 test('Create account', async () => {
-  const response = await request(server).put('/api/accounts');
+  const response = await request(server).post('/api/accounts');
   expect(response.status).toBe(200);
 });

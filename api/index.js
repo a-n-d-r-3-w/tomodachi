@@ -4,7 +4,7 @@ const accounts = require('./db/accounts');
 
 app.use(bodyParser.json());
 
-app.put('/api/accounts', async (req, res) => {
+app.post('/api/accounts', async (req, res) => {
   try {
     await accounts.create();
     res.end();
