@@ -26,6 +26,17 @@ app.post('/api/friends', async (req, res) => {
   }
 });
 
+app.get('/api/friends', async (req, res) => {
+  const { id } = req.body;
+  try {
+    const myFriends = await friends.get(id);
+    res.json({ friends: myFriends })
+  } catch (error) {
+    console.error(error);
+    res.status(500).end();
+  }
+})
+
 const server = app.listen(3000);
 
 module.exports = server;

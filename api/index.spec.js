@@ -33,4 +33,39 @@ test('Add friend', async () => {
     },
   });
   expect(response2.status).toBe(200);
-})
+});
+
+test('Get friends', async () => {
+  const response1 = await request(server).post('/api/accounts');
+  const { id } = JSON.parse(response1.text);
+  const sludge = {
+    name: 'Sludge',
+    about: [ 'Has a long neck' ],
+    toTalkAbout: [ 'Does he like mud?' ],
+  };
+  const snarl = {
+    name: 'Snarl',
+    about: [ 'Has plates on his back' ],
+    toTalkAbout: [ 'His tail' ],
+  };
+  await request(server).post('/api/friends').send({
+    id,
+    friend: sludge,
+  });
+  await request(server).post('/api/friends').send({
+    id,
+    friend: snarl,
+  });
+  const response2 = await request(server).get('/api/friends').send({ id });
+  expect(response2.status).toBe(200);
+  const myFriends = JSON.parse(response2.text).friends;
+  expect(myFriends.length).toBe(2);
+  expect(myFriends[0]).toEqual({
+    id: expect.any(String),
+    ...sludge,
+  });
+  expect(myFriends[1]).toEqual({
+    id: expect.any(String),
+    ...snarl,
+  });
+});
