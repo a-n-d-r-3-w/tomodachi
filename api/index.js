@@ -1,15 +1,28 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 const accounts = require('./db/accounts');
+const friends = require('./db/friends');
 
 app.use(bodyParser.json());
 
 app.post('/api/accounts', async (req, res) => {
   try {
-    await accounts.create();
+    const id = await accounts.create();
+    res.json({ id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).end();
+  }
+});
+
+app.post('/api/friends', async (req, res) => {
+  const { id, friend } = req.body;
+  try {
+    await friends.add(id, friend);
     res.end();
   } catch (error) {
-    res.status(400).end();
+    console.error(error);
+    res.status(500).end();
   }
 });
 
