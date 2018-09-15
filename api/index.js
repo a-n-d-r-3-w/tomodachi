@@ -7,8 +7,8 @@ app.use(bodyParser.json());
 
 app.post('/api/accounts', async (req, res) => {
   try {
-    const id = await accounts.create();
-    res.json({ id });
+    const accountId = await accounts.create();
+    res.json({ accountId });
   } catch (error) {
     console.error(error);
     res.status(500).end();
@@ -16,9 +16,9 @@ app.post('/api/accounts', async (req, res) => {
 });
 
 app.post('/api/friends', async (req, res) => {
-  const { id, friend } = req.body;
+  const { accountId, friend } = req.body;
   try {
-    await friends.add(id, friend);
+    await friends.add(accountId, friend);
     res.end();
   } catch (error) {
     console.error(error);
@@ -27,15 +27,15 @@ app.post('/api/friends', async (req, res) => {
 });
 
 app.get('/api/friends', async (req, res) => {
-  const { id } = req.body;
+  const { accountId } = req.body;
   try {
-    const myFriends = await friends.get(id);
+    const myFriends = await friends.get(accountId);
     res.json({ friends: myFriends })
   } catch (error) {
     console.error(error);
     res.status(500).end();
   }
-})
+});
 
 const server = app.listen(3000);
 

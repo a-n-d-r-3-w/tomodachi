@@ -2,24 +2,24 @@ const shortid = require('shortid');
 const accounts = require('./accounts');
 const connectRunClose = require('./connectRunClose');
 
-const get = async id => {
-  const account = await accounts.get(id);
+const get = async accountId => {
+  const account = await accounts.get(accountId);
   const { friends } = account;
   return friends ? friends : [];
 };
 
-const count = async id => {
-  const friends = await get(id);
+const count = async accountId => {
+  const friends = await get(accountId);
   return friends.length;
 }
 
-const add = async (id, friend) => {
-  const friends = await get(id);
+const add = async (accountId, friend) => {
+  const friends = await get(accountId);
   friends.push({
-    id: shortid.generate(),
+    friendId: shortid.generate(),
     ...friend,
   });
-  return connectRunClose(accounts => accounts.updateOne({ id }, { $set: { friends }}));
+  return connectRunClose(accounts => accounts.updateOne({ accountId }, { $set: { friends }}));
 }
 
 module.exports = {

@@ -17,15 +17,15 @@ afterEach(async () => {
 test('Create account', async () => {
   const response = await request(server).post('/api/accounts');
   expect(response.status).toBe(200);
-  expect(JSON.parse(response.text).id).toEqual(expect.any(String));
+  expect(JSON.parse(response.text).accountId).toEqual(expect.any(String));
 });
 
 test('Add friend', async () => {
   const response1 = await request(server).post('/api/accounts');
   expect(response1.status).toBe(200);
-  const { id } = JSON.parse(response1.text);
+  const { accountId } = JSON.parse(response1.text);
   const response2 = await request(server).post('/api/friends').send({
-    id,
+    accountId,
     friend: {
       name: 'Sludge',
       about: [ 'Has a long neck' ],
@@ -37,7 +37,7 @@ test('Add friend', async () => {
 
 test('Get friends', async () => {
   const response1 = await request(server).post('/api/accounts');
-  const { id } = JSON.parse(response1.text);
+  const { accountId } = JSON.parse(response1.text);
   const sludge = {
     name: 'Sludge',
     about: [ 'Has a long neck' ],
@@ -49,23 +49,23 @@ test('Get friends', async () => {
     toTalkAbout: [ 'His tail' ],
   };
   await request(server).post('/api/friends').send({
-    id,
+    accountId,
     friend: sludge,
   });
   await request(server).post('/api/friends').send({
-    id,
+    accountId,
     friend: snarl,
   });
-  const response2 = await request(server).get('/api/friends').send({ id });
+  const response2 = await request(server).get('/api/friends').send({ accountId });
   expect(response2.status).toBe(200);
   const myFriends = JSON.parse(response2.text).friends;
   expect(myFriends.length).toBe(2);
   expect(myFriends[0]).toEqual({
-    id: expect.any(String),
+    friendId: expect.any(String),
     ...sludge,
   });
   expect(myFriends[1]).toEqual({
-    id: expect.any(String),
+    friendId: expect.any(String),
     ...snarl,
   });
 });

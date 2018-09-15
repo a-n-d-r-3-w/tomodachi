@@ -9,26 +9,26 @@ afterEach(async () => {
 
 describe('get', () => {
   test('Empty', async () => {
-    const id = await accounts.create();
-    const myFriends = await friends.get(id);
+    const accountId = await accounts.create();
+    const myFriends = await friends.get(accountId);
     expect(myFriends).toEqual([]);
   });
 });
 
 test('add', async () => {
-  const id = await accounts.create();
+  const accountId = await accounts.create();
   const grimlock = {
     name: 'Grimlock',
     about: [ 'Likes to listen to stories.' ],
     toTalkAbout: [ 'This new story I heard.' ],
   };
-  await friends.add(id, grimlock);
-  const count1 = await friends.count(id);
+  await friends.add(accountId, grimlock);
+  const count1 = await friends.count(accountId);
   expect(count1).toBe(1);
 
-  const myFriends1 = await friends.get(id);
+  const myFriends1 = await friends.get(accountId);
   expect(myFriends1).toEqual([ {
-    id: expect.any(String),
+    friendId: expect.any(String),
     ...grimlock,
   }]);
 
@@ -37,18 +37,18 @@ test('add', async () => {
     about: [ 'Likes to fly.' ],
     toTalkAbout: [ 'Where the Decepticons are.' ],
   };
-  await friends.add(id, swoop);
-  const count2 = await friends.count(id);
+  await friends.add(accountId, swoop);
+  const count2 = await friends.count(accountId);
   expect(count2).toBe(2);
 
-  const myFriends2 = await friends.get(id);
+  const myFriends2 = await friends.get(accountId);
   expect(myFriends2).toEqual([ 
     { 
-      id: expect.any(String),
+      friendId: expect.any(String),
       ...grimlock, 
     },
     {
-      id: expect.any(String),
+      friendId: expect.any(String),
       ...swoop,
     },
   ]);

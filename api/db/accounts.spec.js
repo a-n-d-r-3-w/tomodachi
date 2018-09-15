@@ -8,17 +8,17 @@ afterEach(async () => {
 });
 
 test('create', async () => {
-  const id1 = await accounts.create();
-  expect(id1).toEqual(expect.any(String));
+  const accountId1 = await accounts.create();
+  expect(accountId1).toEqual(expect.any(String));
   expect(await accounts.count()).toBe(1);
 
-  const id2 = await accounts.create();
-  expect(id2).toEqual(expect.any(String));
+  const accountId2 = await accounts.create();
+  expect(accountId2).toEqual(expect.any(String));
   expect(await accounts.count()).toBe(2);
 });
 
 test('get', async () => {
-  const id = await accounts.create();
-  const account = await accounts.get(id);
-  expect(account.id).toBe(id);
+  const accountId = await accounts.create();
+  const account = await accounts.get(accountId);
+  expect(account.accountId).toBe(accountId);
 });
