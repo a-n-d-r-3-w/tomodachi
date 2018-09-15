@@ -1,3 +1,4 @@
+// This test requires mongod to be running in the background.
 const accounts = require('./accounts');
 const friends = require('./friends');
 
