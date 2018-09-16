@@ -3,5 +3,5 @@ beforeEach(() => {
 });
 
 it('Is tomodachi', () => {
-  expect(true).to.equal(true);
+  cy.get('[data-test-id="create-account"]').click();
 });
