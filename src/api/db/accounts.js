@@ -1,3 +1,4 @@
+// @flow
 const shortid = require('shortid');
 const connectRunClose = require('./connectRunClose');
 
@@ -14,7 +15,7 @@ const count = () => connectRunClose(collection => collection.countDocuments({}))
 
 const drop = () => connectRunClose(collection => collection.drop());
 
-const get = accountId => connectRunClose(collection => collection.findOne({ accountId }));
+const get = (accountId: string) => connectRunClose(collection => collection.findOne({ accountId }));
 
 module.exports = {
   count,

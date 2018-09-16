@@ -1,3 +1,4 @@
+// @flow
 const app = require('express')();
 const bodyParser = require('body-parser');
 const accounts = require('./db/accounts');
