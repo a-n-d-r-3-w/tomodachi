@@ -14,6 +14,12 @@ const count = async accountId => {
 }
 
 const add = async (accountId, friend) => {
+  if (!friend ||
+    !friend.name || !(typeof friend.name === 'string') ||
+    !friend.about || !Array.isArray(friend.about) ||
+    !friend.toTalkAbout || !Array.isArray(friend.toTalkAbout)) {
+    throw new Error('"friend" is malformed.');
+  }
   const friends = await get(accountId);
   friends.push({
     friendId: shortid.generate(),
