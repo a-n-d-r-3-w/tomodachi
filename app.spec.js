@@ -1,11 +1,11 @@
 /* eslint-disable global-require */
 const request = require('supertest');
-const accounts = require('./db/accounts');
+const accounts = require('./api/db/accounts');
 
 let server;
 
 beforeEach(async () => {
-  server = require('./index');
+  server = require('./app');
 });
 
 afterEach(async () => {
