@@ -26,8 +26,8 @@ app.post('/api/friends', async (req, res) => {
   }
 });
 
-app.get('/api/friends', async (req, res) => {
-  const { accountId } = req.body;
+app.get('/api/accounts/:accountId', async (req, res) => {
+  const { accountId } = req.params;
   try {
     const myFriends = await friends.get(accountId);
     res.json({ friends: myFriends })

@@ -56,7 +56,7 @@ test('Get friends', async () => {
     accountId,
     friend: snarl,
   });
-  const response2 = await request(server).get('/api/friends').send({ accountId });
+  const response2 = await request(server).get(`/api/accounts/${accountId}`);
   expect(response2.status).toBe(200);
   const myFriends = JSON.parse(response2.text).friends;
   expect(myFriends.length).toBe(2);
