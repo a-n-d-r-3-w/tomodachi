@@ -1,3 +1,5 @@
 {
-  "ignoreTestFiles": "**/cypress/integration/examples/*.spec.js"
+  "ignoreTestFiles": "**/cypress/integration/examples/*.spec.js",
+  "viewportHeight": 568,
+  "viewportWidth": 320
 }

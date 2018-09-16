@@ -3,5 +3,5 @@ beforeEach(() => {
 });
 
 it('Is tomodachi', () => {
-  expect(true).toBe(true);
+  expect(true).to.equal(true);
 });

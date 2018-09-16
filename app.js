@@ -1,7 +1,9 @@
-const app = require('express')();
+const express = require('express');
 const bodyParser = require('body-parser');
 const accounts = require('./api/db/accounts');
 const friends = require('./api/db/friends');
+
+const app = express();
 
 app.use(bodyParser.json());
 
@@ -36,6 +38,8 @@ app.get('/api/accounts/:accountId', async (req, res) => {
     res.status(500).end();
   }
 });
+
+app.use(express.static('public'));
 
 const server = app.listen(3000);
 
