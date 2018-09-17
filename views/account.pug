@@ -1,5 +1,15 @@
 html
   head
-    title= Account
+    title tomodachi
+    script(src='/main.js')
   body
-    button(data-test-id='add-friend') Add friend
+    button(data-test-id='add-friend' onclick='addFriend()') Add friend
+    ul
+      each friend in friends
+        li= friend.name
+          ul
+            each aboutItem in friend.about
+              li= aboutItem
+          ul
+            each toTalkAboutItem in friend.toTalkAbout
+              li= toTalkAboutItem
