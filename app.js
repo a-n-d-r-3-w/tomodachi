@@ -41,6 +41,10 @@ app.get('/api/accounts/:accountId', async (req, res) => {
 
 app.use(express.static('public'));
 
+app.get('/account/:accountId', async (req, res) => {
+  res.send("hello");
+});
+
 const server = app.listen(3000);
 
 module.exports = server;

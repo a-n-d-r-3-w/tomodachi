@@ -7,11 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
   <!-- <script src="main.js"></script> -->
+  <script>
+    const createAccount = () =>
+      fetch('/api/accounts', { method: 'post' })
+      .then(response => response.json())
+      .then(myJson => location.href = '/account/' + myJson.accountId);
+  </script>
 </head>
 <body>
   <button
     data-test-id="create-account"
-    onclick="location.href='http://localhost:3000/account/'"
+    onclick="createAccount()"
   >Create account</button>
 </body>
 </html>
