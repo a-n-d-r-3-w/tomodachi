@@ -41,8 +41,12 @@ app.get('/api/accounts/:accountId', async (req, res) => {
 
 app.use(express.static('public'));
 
+app.set('views', './views');
+app.set('view engine', 'pug');
+
 app.get('/account/:accountId', async (req, res) => {
-  res.send("hello");
+  const { accountId } = req.params;
+  res.render('account', { title: 'Hey', message: `Hello there, ${accountId}!` });
 });
 
 const server = app.listen(3000);
