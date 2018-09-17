@@ -46,7 +46,13 @@ app.set('view engine', 'pug');
 
 app.get('/account/:accountId', async (req, res) => {
   const { accountId } = req.params;
-  res.render('account', { title: 'Hey', message: `Hello there, ${accountId}!` });
+  try {
+    const myFriends = await friends.get(accountId);
+    res.render('account', { friends: myFriends });
+  } catch (error) {
+    console.error(error);
+    res.status(500).end();
+  }
 });
 
 const server = app.listen(3000);
