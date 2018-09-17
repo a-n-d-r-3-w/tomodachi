@@ -12,4 +12,7 @@ const addFriend = () =>
         toTalkAbout: [ 'Does he like mud?' ],
       },
     }),
+  })
+  .then(() => {
+    location.reload();
   });
