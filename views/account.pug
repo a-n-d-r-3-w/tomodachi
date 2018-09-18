@@ -4,12 +4,16 @@ html
     script(src='/main.js')
   body
     button(data-test-id='add-friend' onclick='addFriend()') Add friend
-    ul
-      each friend in friends
-        li= friend.name
+    each friend in friends
+      fieldset
+        legend= friend.name
+        fieldset
+          legend= About
           ul
-            each aboutItem in friend.about
-              li= aboutItem
+          each aboutItem in friend.about
+            li= aboutItem
+        fieldset
+          legend= "To talk about"
           ul
             each toTalkAboutItem in friend.toTalkAbout
               li= toTalkAboutItem
