@@ -22,7 +22,7 @@ html
     )
   body
     div(class='container-fluid')
-      div(class='row justify-content-center mt-3 mb-1')
+      div(class='row justify-content-center mt-3 mb-1 mx-1')
         button(
           type='button'
           class='btn btn-primary btn-sm'
@@ -31,9 +31,9 @@ html
         ) 
           i(class='fas fa-star mr-2')
           span= 'Add friend'
-      div(class='row justify-content-center')
+      div(class='row justify-content-center mx-1')
         each friend in friends
-            div(class='card m-2' style='width: 18rem;')
+            div(class='card my-2' style='width: 18rem;')
               div(class='card-body')
                 div(class='form-group')                  
                   h2(class='text-center')= friend.name
