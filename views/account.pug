@@ -35,7 +35,9 @@ html
       div(class='row justify-content-center')
         each friend in friends
             div(class='card m-2' style='width: 18rem;')
-              div(class='card-header h3')= friend.name
+              div(class='card-header')
+                span(class='mr-2 h3 align-middle')= friend.name
+                i(class='fas fa-pencil-alt text-muted align-middle')
               div(class='card-body text-center')
                 a(href='#' class='card-link')
                   i(class='fas fa-plus mr-2')
