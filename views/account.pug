@@ -14,6 +14,12 @@ html
       integrity='sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B'
       crossorigin='anonymous'
     )
+    link(
+      rel='stylesheet'
+      href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'
+      integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU'
+      crossorigin='anonymous'
+    )
   body
     div(class='container')
       div(class='row justify-content-center my-3')
@@ -33,11 +39,13 @@ html
                 button(
                   type='button'
                   class='btn btn-primary btn-sm'
-                ) Add
+                )
+                  <i class="fas fa-plus"></i>
                 p(class='card-text')= friend.about[0]
                 h5= 'To talk about:'
                 button(
                   type='button'
                   class='btn btn-primary btn-sm'
-                ) Add
+                )
+                  <i class="fas fa-plus"></i>
                 p(class='card-text')= friend.toTalkAbout[0]
