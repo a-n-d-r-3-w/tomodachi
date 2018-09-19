@@ -21,7 +21,7 @@ html
       crossorigin='anonymous'
     )
   body
-    div(class='container')
+    div(class='container-fluid')
       div(class='row justify-content-center my-3')
         button(
           type='button'
@@ -31,23 +31,23 @@ html
         ) 
           i(class='fas fa-star mr-2')
           span= 'Add friend'
-      each friend in friends
-        div(class='row justify-content-center my-3')
-          div(class='card' style='width: 18rem;')
-            div(class='card-body')
-              div(class='form-group')                  
-                h2(class='text-center')= friend.name
-                h5= 'About:'
-                button(
-                  type='button'
-                  class='btn btn-primary btn-sm'
-                )
-                  i(class="fas fa-plus")
-                p(class='card-text')= friend.about[0]
-                h5= 'To talk about:'
-                button(
-                  type='button'
-                  class='btn btn-primary btn-sm'
-                )
-                  i(class="fas fa-plus")
-                p(class='card-text')= friend.toTalkAbout[0]
+      div(class='row justify-content-center')
+        each friend in friends
+            div(class='card m-2' style='width: 18rem;')
+              div(class='card-body')
+                div(class='form-group')                  
+                  h2(class='text-center')= friend.name
+                  h5= 'About:'
+                  button(
+                    type='button'
+                    class='btn btn-primary btn-sm'
+                  )
+                    i(class="fas fa-plus")
+                  p(class='card-text')= friend.about[0]
+                  h5= 'To talk about:'
+                  button(
+                    type='button'
+                    class='btn btn-primary btn-sm'
+                  )
+                    i(class="fas fa-plus")
+                  p(class='card-text')= friend.toTalkAbout[0]
