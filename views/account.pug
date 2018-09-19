@@ -25,10 +25,12 @@ html
       div(class='row justify-content-center my-3')
         button(
           type='button'
-          class='btn btn-primary'
+          class='btn btn-primary btn-sm'
           data-test-id='add-friend'
           onclick='addFriend()'
-        ) Add friend
+        ) 
+          i(class='fas fa-star mr-2')
+          span= 'Add friend'
       each friend in friends
         div(class='row justify-content-center my-3')
           div(class='card' style='width: 18rem;')
@@ -40,12 +42,12 @@ html
                   type='button'
                   class='btn btn-primary btn-sm'
                 )
-                  <i class="fas fa-plus"></i>
+                  i(class="fas fa-plus")
                 p(class='card-text')= friend.about[0]
                 h5= 'To talk about:'
                 button(
                   type='button'
                   class='btn btn-primary btn-sm'
                 )
-                  <i class="fas fa-plus"></i>
+                  i(class="fas fa-plus")
                 p(class='card-text')= friend.toTalkAbout[0]
