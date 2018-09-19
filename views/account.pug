@@ -27,6 +27,17 @@ html
         div(class='row justify-content-center my-3')
           div(class='card' style='width: 18rem;')
             div(class='card-body')
-              h5(class='card-title')= friend.name
-              p(class='card-text')= friend.about[0]
-              p(class='card-text')= friend.toTalkAbout[0]
+              div(class='form-group')                  
+                h2(class='text-center')= friend.name
+                h5= 'About:'
+                button(
+                  type='button'
+                  class='btn btn-primary btn-sm'
+                ) Add
+                p(class='card-text')= friend.about[0]
+                h5= 'To talk about:'
+                button(
+                  type='button'
+                  class='btn btn-primary btn-sm'
+                ) Add
+                p(class='card-text')= friend.toTalkAbout[0]
