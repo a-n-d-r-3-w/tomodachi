@@ -22,7 +22,7 @@ html
     )
   body
     div(class='container-fluid')
-      div(class='row justify-content-center mt-3 mb-1 mx-1')
+      div(class='row justify-content-center mt-3 mb-1')
         button(
           type='button'
           class='btn btn-primary btn-sm'
@@ -31,23 +31,22 @@ html
         ) 
           i(class='fas fa-star mr-2')
           span= 'Add friend'
-      div(class='row justify-content-center mx-1')
+      div(class='row justify-content-center')
         each friend in friends
-            div(class='card my-2' style='width: 18rem;')
+            div(class='card m-2' style='width: 18rem;')
               div(class='card-body')
-                div(class='form-group')                  
-                  h2(class='text-center')= friend.name
-                  h5= 'About:'
-                  button(
-                    type='button'
-                    class='btn btn-primary btn-sm'
-                  )
-                    i(class="fas fa-plus")
-                  p(class='card-text')= friend.about[0]
-                  h5= 'To talk about:'
-                  button(
-                    type='button'
-                    class='btn btn-primary btn-sm'
-                  )
-                    i(class="fas fa-plus")
-                  p(class='card-text')= friend.toTalkAbout[0]
+                h2(class='card-title')= friend.name
+                h5= 'About:'
+                button(
+                  type='button'
+                  class='btn btn-primary btn-sm'
+                )
+                  i(class="fas fa-plus")
+                p(class='card-text')= friend.about[0]
+                h5= 'To talk about:'
+                button(
+                  type='button'
+                  class='btn btn-primary btn-sm'
+                )
+                  i(class="fas fa-plus")
+                p(class='card-text')= friend.toTalkAbout[0]
