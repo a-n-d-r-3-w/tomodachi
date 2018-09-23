@@ -16,3 +16,9 @@ const addFriend = () =>
   .then(() => {
     location.reload();
   });
+
+const addInfo = (friendId) => {
+  const newInfo = window.prompt("New info: ");
+  console.log('friendId:', friendId);
+  console.log('newInfo:', newInfo);
+};
