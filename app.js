@@ -48,7 +48,10 @@ app.get('/account/:accountId', async (req, res) => {
   const { accountId } = req.params;
   try {
     const myFriends = await friends.get(accountId);
-    res.render('account', { friends: myFriends });
+    res.render('account', {
+      accountId,
+      friends: myFriends,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).end();
