@@ -1,61 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const accounts = require('./api/db/accounts');
-const friends = require('./api/db/friends');
+const connectRunClose = require('./api/db/connectRunClose');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.post('/api/accounts', async (req, res) => {
-  try {
-    const accountId = await accounts.create();
-    res.json({ accountId });
-  } catch (error) {
-    console.error(error);
-    res.status(500).end();
+app.post('/api/things', async (req, res) => {
+  const thing = req.body;
+  const result = await connectRunClose(things => things.insertOne(thing));
+  if (result.result.ok === 1) {
+    res.status(200).end();
   }
-});
-
-app.post('/api/friends', async (req, res) => {
-  const { accountId, friend } = req.body;
-  try {
-    await friends.add(accountId, friend);
-    res.end();
-  } catch (error) {
-    console.error(error);
-    res.status(500).end();
-  }
-});
-
-app.get('/api/accounts/:accountId', async (req, res) => {
-  const { accountId } = req.params;
-  try {
-    const myFriends = await friends.get(accountId);
-    res.json({ friends: myFriends })
-  } catch (error) {
-    console.error(error);
-    res.status(500).end();
-  }
-});
+  res.status(500).end();
+})
 
 app.use(express.static('public'));
 
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-app.get('/account/:accountId', async (req, res) => {
+app.get('/api/account/:accountId', async (req, res) => {
   const { accountId } = req.params;
-  try {
-    const myFriends = await friends.get(accountId);
-    res.render('account', {
-      accountId,
-      friends: myFriends,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).end();
-  }
+  const result = await connectRunClose(things => things.find({ accountId }).toArray());
+  res.json(result);
 });
 
 const server = app.listen(3000);

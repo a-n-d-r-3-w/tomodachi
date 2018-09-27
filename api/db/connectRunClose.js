@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 
 const DB_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'tomodachi';
-const COLLECTION_NAME = 'accounts';
+const COLLECTION_NAME = 'things';
 
 const connectRunClose = async fn => {
   // noinspection JSCheckFunctionSignatures, because WebStorm doesn't know about useNewUrlParser.
