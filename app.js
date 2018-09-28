@@ -7,15 +7,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.post('/api/addThing', async (req, res) => {
-  const thing = req.body;
-  const result = await connectRunClose('things', things => things.insertOne(thing));
-  if (result.result.ok === 1) {
-    res.status(200).end();
-  }
-  res.status(500).end();
-})
-
 app.post('/api/createAccountId', async (req, res) => {
   const accountId = shortid.generate();
   const result = await connectRunClose('accountIds', accountIds => accountIds.insertOne({ accountId }));
@@ -25,16 +16,25 @@ app.post('/api/createAccountId', async (req, res) => {
   res.status(500).end();
 })
 
+app.post('/api/addThing', async (req, res) => {
+  const thing = req.body;
+  const result = await connectRunClose('things', things => things.insertOne(thing));
+  if (result.result.ok === 1) {
+    res.status(200).end();
+  }
+  res.status(500).end();
+})
+
+app.get('/api/getThings', async (req, res) => {
+  const { accountId } = req.query;
+  const result = await connectRunClose('things', things => things.find({ accountId }).toArray());
+  res.json(result);
+});
+
 app.use(express.static('public'));
 
 app.set('views', './views');
 app.set('view engine', 'pug');
-
-app.get('/api/account/:accountId', async (req, res) => {
-  const { accountId } = req.params;
-  const result = await connectRunClose('things', things => things.find({ accountId }).toArray());
-  res.json(result);
-});
 
 const server = app.listen(3000);
 
