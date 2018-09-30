@@ -64,6 +64,7 @@ describe('Get things', () => {
     await request(server).post('/api/addThing').send(thing);
   
     const getThingsResponse = await request(server).get(`/api/getThings?accountId=${accountId}`);
+    expect(getThingsResponse.status).toBe(200);
     const things = JSON.parse(getThingsResponse.text);
     expect(things.length).toBe(1);
     expect(things[0]).toEqual({ _id: expect.any(String), ...thing });

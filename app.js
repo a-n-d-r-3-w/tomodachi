@@ -53,7 +53,7 @@ app.get('/api/getThings', async (req, res) => {
   }
 
   const result = await connectRunClose('things', things => things.find({ accountId }).toArray());
-  res.json(result);
+  res.status(200).json(result);
 });
 
 app.use(express.static('public'));
