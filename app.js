@@ -18,6 +18,16 @@ app.post('/api/createAccountId', async (req, res) => {
 
 app.post('/api/addThing', async (req, res) => {
   const thing = req.body;
+  const { accountId } = thing;
+
+  const hasAccountId = !!accountId;
+  if (!hasAccountId) {
+    res.status(400).send('Request is missing accountId.');
+    return;
+  }
+
+  // TODO: Return error if the accountId does not exist
+
   const result = await connectRunClose('things', things => things.insertOne(thing));
   if (result.result.ok === 1) {
     res.status(200).end();
