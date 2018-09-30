@@ -14,7 +14,13 @@ app.post('/api/createAccountId', async (req, res) => {
     res.status(200).json({ accountId });
   }
   res.status(500).end();
-})
+});
+
+const accountIdExists = async accountId => {
+  const accountIdsWithMongoDbIds = await connectRunClose('accountIds', accountIds => accountIds.find({}).toArray());
+  const accountIds = accountIdsWithMongoDbIds.map(obj => obj.accountId);
+  return accountIds.includes(accountId);
+}
 
 app.post('/api/addThing', async (req, res) => {
   const thing = req.body;
@@ -26,9 +32,7 @@ app.post('/api/addThing', async (req, res) => {
     return;
   }
 
-  const accountIdsWithMongoDbIds = await connectRunClose('accountIds', accountIds => accountIds.find({}).toArray());
-  const accountIds = accountIdsWithMongoDbIds.map(obj => obj.accountId);
-  if (!accountIds.includes(accountId)) {
+  if (!(await accountIdExists(accountId))) {
     res.status(403).send('accountId does not exist.');
     return;
   }
@@ -38,10 +42,16 @@ app.post('/api/addThing', async (req, res) => {
     res.status(200).end();
   }
   res.status(500).end();
-})
+});
 
 app.get('/api/getThings', async (req, res) => {
   const { accountId } = req.query;
+
+  if (!(await accountIdExists(accountId))) {
+    res.status(403).send('accountId does not exist.');
+    return;
+  }
+
   const result = await connectRunClose('things', things => things.find({ accountId }).toArray());
   res.json(result);
 });
