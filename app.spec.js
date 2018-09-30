@@ -26,10 +26,18 @@ test('Create account ID', async () => {
   expect(JSON.parse(response.text).accountId).toEqual(expect.any(String));
 });
 
-test('Add thing', async () => {
-  const response = await request(server).post('/api/addThing');
-  expect(response.status).toBe(200);
-  expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(1);
+describe('Add thing', () => {
+  it('Happy path', async () => {
+    const response = await request(server).post('/api/addThing').send({ accountId: 'accountId' });
+    expect(response.status).toBe(200);
+    expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(1);
+  });
+
+  it('Request is missing accountId', async () => {
+    const response = await request(server).post('/api/addThing');
+    expect(response.status).toBe(400);
+    expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(0);
+  });
 });
 
 test('Get things', async () => {
