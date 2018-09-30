@@ -26,7 +26,12 @@ app.post('/api/addThing', async (req, res) => {
     return;
   }
 
-  // TODO: Return error if the accountId does not exist
+  const accountIdsWithMongoDbIds = await connectRunClose('accountIds', accountIds => accountIds.find({}).toArray());
+  const accountIds = accountIdsWithMongoDbIds.map(obj => obj.accountId);
+  if (!accountIds.includes(accountId)) {
+    res.status(403).send('accountId does not exist.');
+    return;
+  }
 
   const result = await connectRunClose('things', things => things.insertOne(thing));
   if (result.result.ok === 1) {

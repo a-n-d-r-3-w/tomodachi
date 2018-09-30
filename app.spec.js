@@ -28,7 +28,9 @@ test('Create account ID', async () => {
 
 describe('Add thing', () => {
   it('Happy path', async () => {
-    const response = await request(server).post('/api/addThing').send({ accountId: 'accountId' });
+    const createAccountIdResponse = await request(server).post('/api/createAccountId');
+    const { accountId } = JSON.parse(createAccountIdResponse.text);
+    const response = await request(server).post('/api/addThing').send({ accountId });
     expect(response.status).toBe(200);
     expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(1);
   });
@@ -36,6 +38,12 @@ describe('Add thing', () => {
   it('Request is missing accountId', async () => {
     const response = await request(server).post('/api/addThing');
     expect(response.status).toBe(400);
+    expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(0);
+  });
+
+  it('accountId does not exist', async () => {
+    const response = await request(server).post('/api/addThing').send({ accountId: 'accountId' });
+    expect(response.status).toBe(403);
     expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(0);
   });
 });
