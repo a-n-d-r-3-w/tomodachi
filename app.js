@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const shortid = require('shortid')
+const shortid = require('shortid');
 const connectRunClose = require('./api/db/connectRunClose');
 
 const app = express();
@@ -20,7 +20,7 @@ const accountIdExists = async accountId => {
   const accountIdsWithMongoDbIds = await connectRunClose('accountIds', accountIds => accountIds.find({}).toArray());
   const accountIds = accountIdsWithMongoDbIds.map(obj => obj.accountId);
   return accountIds.includes(accountId);
-}
+};
 
 app.post('/api/addThing', async (req, res) => {
   const thing = req.body;
@@ -60,6 +60,22 @@ app.use(express.static('public'));
 
 app.set('views', './views');
 app.set('view engine', 'pug');
+
+app.get('/things', async (req, res) => {
+
+  const { accountId } = req.query;
+
+  if (!(await accountIdExists(accountId))) {
+    res.status(403).send('accountId does not exist.');
+    return;
+  }
+
+  const result = await connectRunClose('things', things => things.find({ accountId }).toArray());
+
+  console.log(JSON.stringify(result, null, 2))
+
+  res.render('things', { things: result })
+});
 
 const server = app.listen(3000);
 
