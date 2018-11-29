@@ -1,12 +1,12 @@
 const addFriend = () =>
-  fetch('/api/friends', {
+  fetch('/api/addThing', {
     method: 'post',
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
-      accountId: (new URL(location.href)).pathname.split('/')[2],
-      friend: {
+      accountId: (new URLSearchParams(document.location.search.substring(1))).get('accountId'),
+      thing: {
         name: 'Sludge',
         about: [ 'Has a long neck' ],
         toTalkAbout: [ 'Does he like mud?' ],

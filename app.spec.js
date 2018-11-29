@@ -1,71 +1,77 @@
 /* eslint-disable global-require */
 const request = require('supertest');
-const accounts = require('./api/db/accounts');
+const shortid = require('shortid');
+const connectRunClose = require('./api/db/connectRunClose');
 
 let server;
 
-beforeEach(async () => {
+beforeAll(async () => {
   server = require('./app');
 });
 
-afterEach(async () => {
-  server.close();
-  const result = await accounts.drop();
-  expect(await accounts.count()).toBe(0);
+afterAll(async () => {
+  await server.close();
 });
 
-test('Create account', async () => {
-  const response = await request(server).post('/api/accounts');
+afterEach(async () => {
+  await connectRunClose('things', things => things.deleteMany({}));
+  expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(0);
+  await connectRunClose('accountIds', accountIds => accountIds.deleteMany({}));
+  expect(await connectRunClose('accountIds', accountIds => accountIds.countDocuments({}))).toBe(0);
+});
+
+test('Create account ID', async () => {
+  const response = await request(server).post('/api/createAccountId');
   expect(response.status).toBe(200);
   expect(JSON.parse(response.text).accountId).toEqual(expect.any(String));
 });
 
-test('Add friend', async () => {
-  const response1 = await request(server).post('/api/accounts');
-  expect(response1.status).toBe(200);
-  const { accountId } = JSON.parse(response1.text);
-  const response2 = await request(server).post('/api/friends').send({
-    accountId,
-    friend: {
-      name: 'Sludge',
-      about: [ 'Has a long neck' ],
-      toTalkAbout: [ 'Does he like mud?' ],
-    },
+describe('Add thing', () => {
+  it('Happy path', async () => {
+    const createAccountIdResponse = await request(server).post('/api/createAccountId');
+    const { accountId } = JSON.parse(createAccountIdResponse.text);
+    const response = await request(server).post('/api/addThing').send({ accountId });
+    expect(response.status).toBe(200);
+    expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(1);
   });
-  expect(response2.status).toBe(200);
+
+  it('Request is missing accountId', async () => {
+    const response = await request(server).post('/api/addThing');
+    expect(response.status).toBe(400);
+    expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(0);
+  });
+
+  it('accountId does not exist', async () => {
+    const response = await request(server).post('/api/addThing').send({ accountId: 'accountId' });
+    expect(response.status).toBe(403);
+    expect(await connectRunClose('things', things => things.countDocuments({}))).toBe(0);
+  });
 });
 
-test('Get friends', async () => {
-  const response1 = await request(server).post('/api/accounts');
-  const { accountId } = JSON.parse(response1.text);
-  const sludge = {
-    name: 'Sludge',
-    about: [ 'Has a long neck' ],
-    toTalkAbout: [ 'Does he like mud?' ],
-  };
-  const snarl = {
-    name: 'Snarl',
-    about: [ 'Has plates on his back' ],
-    toTalkAbout: [ 'His tail' ],
-  };
-  await request(server).post('/api/friends').send({
-    accountId,
-    friend: sludge,
+describe('Get things', () => {
+  it('Happy path', async () => {
+    const createAccountIdResponse = await request(server).post('/api/createAccountId');
+    expect(createAccountIdResponse.status).toBe(200);
+    const { accountId } = JSON.parse(createAccountIdResponse.text);
+  
+    const thing = {
+      accountId,
+      content: 'blah',
+      contentType: 'about',
+      friendName: 'Sludge',
+      friendId: shortid.generate(),
+    };
+    await request(server).post('/api/addThing').send(thing);
+  
+    const getThingsResponse = await request(server).get(`/api/getThings?accountId=${accountId}`);
+    expect(getThingsResponse.status).toBe(200);
+    const things = JSON.parse(getThingsResponse.text);
+    expect(things.length).toBe(1);
+    expect(things[0]).toEqual({ _id: expect.any(String), ...thing });
   });
-  await request(server).post('/api/friends').send({
-    accountId,
-    friend: snarl,
-  });
-  const response2 = await request(server).get(`/api/accounts/${accountId}`);
-  expect(response2.status).toBe(200);
-  const myFriends = JSON.parse(response2.text).friends;
-  expect(myFriends.length).toBe(2);
-  expect(myFriends[0]).toEqual({
-    friendId: expect.any(String),
-    ...sludge,
-  });
-  expect(myFriends[1]).toEqual({
-    friendId: expect.any(String),
-    ...snarl,
+
+  it('accountId does not exist', async () => {
+    const getThingsResponse = await request(server).get(`/api/getThings?accountId=foo`);
+    expect(getThingsResponse.status).toBe(403);
   });
 });

@@ -10,9 +10,9 @@
   <!-- <script src="main.js"></script> -->
   <script>
     const createAccount = () =>
-      fetch('/api/accounts', { method: 'post' })
+      fetch('/api/createAccountId', { method: 'post' })
       .then(response => response.json())
-      .then(myJson => location.href = '/account/' + myJson.accountId);
+      .then(myJson => location.href = '/things?accountId=' + myJson.accountId);
   </script>
 </head>
 <body class='bg-light'>
